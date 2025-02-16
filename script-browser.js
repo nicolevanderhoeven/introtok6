@@ -17,6 +17,10 @@ export const options = {
 };
 
 export default async function () {
+  clickPizzaButton();
+}
+
+export async function clickPizzaButton() {
   const context = await browser.newContext();
   const page = await context.newPage();
 

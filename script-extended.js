@@ -21,6 +21,11 @@ const customers = new SharedArray('all my customers', function () {
   });
 
 export default function () {
+  clickParameterized();
+
+}
+
+export function clickParameterized() {
   let restrictions = {
     maxCaloriesPerSlice: 500,
     mustBeVegetarian: false,
@@ -40,5 +45,4 @@ export default function () {
   });
   console.log(`${res.json().pizza.name} (${res.json().pizza.ingredients.length} ingredients)`);
   sleep(Math.random() * 5);
-
 }
