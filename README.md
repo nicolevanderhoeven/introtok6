@@ -299,7 +299,8 @@ But why does a check failure not fail the test? It’s a design choice. Producti
 
 Let's see them in action by adding a check to validate that the status of the HTTP response is 200.
 
-First, we need to import the check function:
+First, we need to import the check funcclear
+tion:
 
 ```js
 import { check } from "k6";
