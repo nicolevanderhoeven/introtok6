@@ -63,7 +63,7 @@ git clone https://github.com/nicolevanderhoeven/introtok6.git
 
 Then, run the playground with:
 ```bash
-cd morcillaconf24; docker compose up -d
+cd introtok6; docker compose up -d
 ```
 
 > In older versions of Docker Compose, you might need to use `docker-compose` instead of `docker compose`.
