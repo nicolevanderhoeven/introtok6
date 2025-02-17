@@ -1,6 +1,6 @@
-# MorcillaConf24 Workshop: Full-stack performance testing with Grafana k6
+# Intro to k6 Workshop: Full-stack performance testing with Grafana k6
 
-Useful links: [slides](https://docs.google.com/presentation/d/1aCQAErAxG3upGeXvvMcqRp1KeYP8zK2FUTHCzT-B_d0/edit#slide=id.g238d3a4a317_0_100) / [docs](https://grafana.com/docs/k6/latest/) 
+Useful links: [slides](https://gra.fan/introtok6slides) / [docs](https://grafana.com/docs/k6/latest/) 
 
 - [0. Before we start](#0-before-we-start)
   * [0.1. Introduction](#01-introduction)
@@ -58,7 +58,7 @@ Useful links: [slides](https://docs.google.com/presentation/d/1aCQAErAxG3upGeXvv
 
 First of all, clone the repository: 
 ```bash
-git clone https://github.com/dgzlopes/morcillaconf24
+git clone https://github.com/nicolevanderhoeven/introtok6.git
 ```
 
 Then, run the playground with:
@@ -844,8 +844,8 @@ This will be the focus of this section. We will use the Browser testing APIs of 
 To do that, let's create a new script named `browser.js` with the following content:
 
 ```js
-import { browser } from "k6/experimental/browser";
-import { check } from "k6";
+import { browser } from "k6/browser";
+import { check, sleep } from "k6";
 
 const BASE_URL = __ENV.BASE_URL || "http://localhost:3333";
 
@@ -863,24 +863,28 @@ export const options = {
 };
 
 export default async function () {
-  const page = browser.newPage();
+  clickPizzaButton();
+}
+
+export async function clickPizzaButton() {
+  const context = await browser.newContext();
+  const page = await context.newPage();
 
   try {
     await page.goto(BASE_URL);
-    check(page, {
-      header:
-        page.locator("h1").textContent() ==
-        "Looking to break out of your pizza routine?",
-    });
 
+    sleep(3);
     await page.locator('//button[. = "Pizza, Please!"]').click();
-    page.waitForTimeout(500);
+
+    await page.locator("h1").textContent() == "Looking to break out of your pizza routine?";
+
+    sleep(3);
     page.screenshot({ path: "screenshot.png" });
-    check(page, {
+    await check(page, {
       recommendation: page.locator("div#recommendations").textContent() != "",
     });
   } finally {
-    page.close();
+    await page.close();
   }
 }
 ```
