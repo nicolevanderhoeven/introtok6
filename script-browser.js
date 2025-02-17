@@ -33,7 +33,7 @@ export async function clickPizzaButton() {
     await page.locator("h1").textContent() == "Looking to break out of your pizza routine?";
 
     sleep(3);
-    page.screenshot({ path: "screenshot.png" });
+    page.screenshot({ path: "screenshots/screenshot.png" });
     await check(page, {
       recommendation: page.locator("div#recommendations").textContent() != "",
     });
